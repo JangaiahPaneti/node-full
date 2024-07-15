@@ -1,0 +1,26 @@
+<p-card>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <div class="flex w-100% flex-column align-items-center">
+            <h2>Login</h2>
+            <div class="card flex flex-column gap-5 col-2">
+                <p-floatLabel class="w-full">
+                    <input pInputText id="email" formControlName="email" class="w-full"/>
+                    <label for="email">Email</label>
+                </p-floatLabel>
+                <p-floatLabel>
+                    <p-password id="password" formControlName="password" [toggleMask]="true" [feedback]="false"/>
+                    <label for="password">Passowrd</label>
+                </p-floatLabel>
+                
+                <div class="flex justify-content-between gap-3 mt-1 w-full">
+                    <p-button type="submit"  label="Submit" severity="primary" [outlined]="true" 
+                    [disabled]="!(loginForm.valid && loginForm.dirty)"/>
+                    <p-button label="Register" routerLink="/register" severity="info" [outlined]="true" />
+                </div>
+                
+            </div>
+        </div>
+        
+    </form>
+</p-card>

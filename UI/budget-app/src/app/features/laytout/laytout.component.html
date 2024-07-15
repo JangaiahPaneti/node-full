@@ -1,3 +1,26 @@
+<p-menubar [model]="items">
+    <ng-template pTemplate="item" let-item let-root="root">
+        <a pRipple class="flex align-items-center p-menuitem-link">
+            <span [class]="item.icon"></span>
+            <span class="ml-2">{{ item.label }}</span>
+            <i *ngIf="item.items" [ngClass]="['pi', root ? 'pi-angle-down ml-2' : 'pi-angle-right ml-auto']"></i>
+        </a>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <div class="flex align-items-center gap-2">
+            <input type="text" pInputText placeholder="Search" class="w-8rem sm:w-auto" />
+            <span class="font-bold">
+                Jangaiah Paneti
+            </span>
+            <p-menu #userMenu [model]="userOptions" [popup]="true" />
+            <p-avatar 
+                icon="pi pi-user" class="cursor-pointer"
+                [style]="{ 'background-color': '#cbc4f0', color: '#2a1261' }" 
+                shape="circle" (click)="userMenu.toggle($event)"/>
+        </div>
+    </ng-template>
+</p-menubar>
+
 <p-card>
     <p-dataView [value]="users">
         <ng-template pTemplate="list" let-users>

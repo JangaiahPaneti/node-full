@@ -1,1 +1,4 @@
+<div *ngIf="isLoad | async" class="fixed w-full h-full flex justify-content-center align-items-center loader-panel" [style.z-index]="9999" >
+    <img src="assets/loaders/loader.gif" [style.border-radius.px]="80"/>
+</div>
 <router-outlet></router-outlet>

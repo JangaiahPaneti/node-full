@@ -1,0 +1,52 @@
+<p-card>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="flex w-100% flex-column align-items-center">
+            <h2>Register</h2>
+            <div class="card flex flex-column align-items-center gap-5 col-5 align-self-center">
+                <p-floatLabel class="w-full">
+                    <input pInputText id="email" formControlName="email" class="w-full"/>
+                    <label for="email">Email</label>
+                </p-floatLabel>
+                <p-floatLabel class="w-full">
+                    <input pInputText id="firstName" formControlName="firstName" class="w-full"/>
+                    <label for="firstName">First Name</label>
+                </p-floatLabel>
+                <p-floatLabel class="w-full">
+                    <input pInputText id="middleName" formControlName="middleName" class="w-full"/>
+                    <label for="middleName">Middle Name</label>
+                </p-floatLabel>
+                <p-floatLabel class="w-full">
+                    <input pInputText id="lastName" formControlName="lastName" class="w-full"/>
+                    <label for="lastName">Last Name</label>
+                </p-floatLabel>
+                <p-floatLabel class="w-full">
+                    <input pInputText id="education" formControlName="education" class="w-full"/>
+                    <label for="education">Education</label>
+                </p-floatLabel>
+                <p-floatLabel class="w-full">
+                    <input pInputText id="occupation" formControlName="occupation" class="w-full"/>
+                    <label for="occupation">Occupation</label>
+                </p-floatLabel>
+                <div class="flex justify-content-between w-full">
+                    <p-floatLabel>
+                        <p-password id="password" formControlName="password" [toggleMask]="true" />
+                        <label for="password">Passowrd</label>
+                    </p-floatLabel>
+                    <p-floatLabel>
+                        <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true"/>
+                        <label for="confirmPassword">Confirm Passowrd</label>
+                    </p-floatLabel>
+                </div>
+                
+                <div class="flex justify-content-between gap-3 mt-1 w-full">
+                    <p-button type="submit"  label="Submit" severity="primary" [outlined]="true" 
+                    [disabled]="!(registerForm.valid && registerForm.dirty && registerForm.controls['password'].value === registerForm.controls['confirmPassword'].value )"
+                    />
+                    <p-button label="Login" routerLink="/login" severity="info" [outlined]="true" />
+                </div>
+                
+            </div>
+        </div>
+        
+    </form>
+</p-card>

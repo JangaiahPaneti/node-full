@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { LoaderService } from './common/services/loader.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +11,8 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'budget-app';
+export class AppComponent{
+  isLoad: Observable<boolean> = this.loader.load$.asObservable();;
+  constructor(private loader: LoaderService){
+  }
 }
