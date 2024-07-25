@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,25 @@ export class AuthService {
   }
 
   logout(){
-    localStorage.clear();
+    sessionStorage.clear();
   }
 
   setToken(token: string){
-    localStorage.setItem('token',token);
+    sessionStorage.setItem('token',token);
   }
 
   getToken(){
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
   }
+
+  setUser(user: User){
+    const _user = btoa(JSON.stringify(user))
+    sessionStorage.setItem('loggedInUser',_user);
+  }
+
+  getUser(): User{
+    return JSON.parse(atob(sessionStorage.getItem('loggedInUser')!)) as User;
+  }
+
+  
 }

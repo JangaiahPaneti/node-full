@@ -1,8 +1,12 @@
-export interface Token{
+import { User } from "./user.model";
+
+
+interface LoginResData{
     accessToken: string;
+    user: User
 }
 export interface LoginResponse{
-    data: Token;
+    data: LoginResData;
     message: string;
     status: string;
 }

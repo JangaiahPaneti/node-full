@@ -2,29 +2,39 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const auth = require('./authenticate');
 const app = express();
 const port = 3000;
 
 const users = [{
   userId: 1,
   email: "jangaiah@king.com",
-  firstName: 'Jangaiah',
+  firstName: 'Ramachandra',
   middleName: "",
-  lastName: "Paneti",
+  lastName: "Manu",
   education: "MCA",
-  occupation: "Software Exployee",
-  password: "$2b$12$TaO88HOPHZgz1XnJi7ZwHuq5bw3RkSKoC1Nud.TwKiDo5rUaHOz6W"
+  occupation: "Software Exployee"
 },
 {
   userId: 2,
   email: "hamsa@king.com",
-  firstName: 'Hamsa',
-  middleName: "",
-  lastName: "Paneti",
+  firstName: 'Sita',
+  middleName: "Devi",
+  lastName: "Manu",
   education: "B.Sc",
-  occupation: "CEO of Cloth Center",
-  password: "$2b$12$TaO88HOPHZgz1XnJi7ZwHuq5bw3RkSKoC1Nud.TwKiDo5rUaHOz6W"
+  occupation: "CEO of Cloth Center"
 }];
+
+const passwords = [
+  {
+    email: "jangaiah@king.com",
+    password: "$2b$12$TaO88HOPHZgz1XnJi7ZwHuq5bw3RkSKoC1Nud.TwKiDo5rUaHOz6W"
+  },
+  {
+    email: "hamsa@king.com",
+    password: "$2b$12$TaO88HOPHZgz1XnJi7ZwHuq5bw3RkSKoC1Nud.TwKiDo5rUaHOz6W"
+  }
+]
 
 const corsOptions = {
   origin: ['http://localhost:4200']
@@ -40,22 +50,28 @@ app.get('/', function(req, res){
 
 app.post('/api/register', async (req, res) => {
   try {
-      if (users.some(user => user.email === req.body.email)) {
+      const reqBody = req.body;
+      if (users.some(user => user.email === reqBody.email)) {
           const err = new Error('Email Taken!')
           err.status = 400;
           throw err;
       }
 
       const user = {
-          email: req.body.email,
-          password: await bcrypt.hash(req.body.password, 12),
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          education: req.body.education,
-          occupation: req.body.occupation
+          email: reqBody.email,
+          firstName: reqBody.firstName,
+          middleName: reqBody.middleName,
+          lastName: reqBody.lastName,
+          education: reqBody.education,
+          occupation: reqBody.occupation
       }
 
       users.push(user);
+      password = {
+        email: reqBody.email,
+        password: await bcrypt.hash(reqBody.password, 12),
+      }
+      passwords.push(password);
 
       setTimeout(() => { 
         res.status(201).json({
@@ -80,21 +96,24 @@ app.post('/api/register', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
   try {
-      const user = users.find(user => user.email === req.body.email);
+      const reqBody = req.body;
+      const user = users.find(user => user.email === reqBody.email);
+      const userPassword = passwords.find(pwd => pwd.email === reqBody.email);
       if (!user) {
           const err = new Error('User Not Found!')
           err.status = 400;
           throw err;
-      } else if (await bcrypt.compare(req.body.password, user.password)) {
+      } else if (await bcrypt.compare(reqBody.password, userPassword.password)) {
           const tokenPayload = {
             email: user.email,
           };
           const accessToken = jwt.sign(tokenPayload, 'SECRET');
-          res.status(201).json({
+          res.status(200).json({
               status: 'success',
               message: 'User Logged In!',
               data: {
                 accessToken,
+                user
               },
             });
       } else {
@@ -110,9 +129,31 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-app.get('/api/user', (req, res) => {
-    res.json(users);
-  });
+app.get('/api/users', auth, (req, res) => {
+  res.status(200).json(users);
+});
+
+app.get('/api/user-profile', auth, (req, res) => {
+  try {
+    const user = users.find(user => user.email === req.user.email);
+    if (!user) {
+        const err = new Error('User Not Found!')
+        err.status = 400;
+        throw err;
+      }
+    else {
+      res.status(200).json({
+        status: 'success',
+        user
+      });
+    }
+  } catch (err) {
+    res.status(err.status).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+});
 
   
 

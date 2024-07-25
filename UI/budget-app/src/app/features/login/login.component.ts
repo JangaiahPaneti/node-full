@@ -44,7 +44,8 @@ export class LoginComponent{
   onSubmit(){
     this.http.login(this.loginForm.value).subscribe((data: LoginResponse) => {
       if(data.status === 'success'){
-        this.authService.setToken(data.data.accessToken)
+        this.authService.setToken(data.data.accessToken);
+        this.authService.setUser(data.data.user);
         this.redirectToHome()
       }
       

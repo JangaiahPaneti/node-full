@@ -38,34 +38,11 @@ import { Router } from '@angular/router';
 })
 export class LaytoutComponent implements OnInit {
   users: User[] = [];
-  items: MenuItem[] = [
-    {
-        label: 'Home',
-        icon: 'pi pi-home',
-        routerLink: '/'
-    },
-    {
-        label: 'Features',
-        icon: 'pi pi-star'
-    },
-  ];
-  userOptions: MenuItem[] = [
-      {
-          label: 'Logout',
-          command: () => {
-            this.logout();
-          }
-      }
-  ];
+  
   constructor(private http: HttpClient, private authService: AuthService, private router: Router){}
   ngOnInit(): void {
-    this.http.get<User[]>( `${environment.apiUrl}/user`).subscribe((data) => {
+    this.http.get<User[]>( `${environment.apiUrl}/users`).subscribe((data) => {
       this.users = data;
     });
-  }
-
-  logout(){
-    this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }

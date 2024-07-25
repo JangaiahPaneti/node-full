@@ -6,7 +6,7 @@ import { PasswordModule } from 'primeng/password';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HttpService } from '../../common/services/http.service';
 
 @Component({
@@ -37,11 +37,11 @@ export class RegisterComponent {
     education: [''],
     occupation: ['']
 });
-  constructor(private fb: FormBuilder, private http: HttpService){}
+  constructor(private fb: FormBuilder, private http: HttpService, private router: Router){}
 
   onSubmit(){
     this.http.registerUser(this.registerForm.value).subscribe((res)=> {
-      console.log(res);
+      this.router.navigate(['/login']);
     })
   }
 }
