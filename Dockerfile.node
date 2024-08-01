@@ -1,0 +1,9 @@
+FROM node:lts-alpine
+WORKDIR /rest-api
+COPY ./rest-api/package.json ./package.json
+COPY ./rest-api/server.js ./server.js
+COPY ./rest-api/authenticate.js ./authenticate.js 
+RUN npm install
+
+EXPOSE 9000
+CMD ["node", "server.js"]

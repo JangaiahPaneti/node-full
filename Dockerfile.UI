@@ -1,0 +1,11 @@
+# Builder container to compile typescript
+FROM node:lts-alpine AS build
+WORKDIR /ui
+COPY ./UI/budget-app .
+RUN npm install
+ 
+# Build typescript
+# RUN npm run build:dev
+RUN npm start
+EXPOSE 4200
+ 

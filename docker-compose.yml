@@ -1,0 +1,15 @@
+services:
+  angularfrontend:
+    build:
+      context: "."
+      dockerfile: "./Dockerfile.UI"
+    ports:
+      - "4200:4200"
+  nodebackend:
+    build:
+      context: "."
+      dockerfile: "./Dockerfile.node"
+    depends_on:
+      - "angularfrontend"
+    ports:
+      - "9000:9000"

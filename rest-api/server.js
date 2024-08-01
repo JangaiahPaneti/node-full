@@ -43,6 +43,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json())
 app.use(express.static(__dirname + '/public/browser'));
+app.disable('x-powered-by');
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/browser/index.html');
